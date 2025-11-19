@@ -1,7 +1,31 @@
 import React from 'react';
 import { Link } from 'react-router';
+import useAuth from '../../hooks/useAuth';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
+
+    const { user, logOut } = useAuth();
+    const handleLogout = () => {
+        logOut()
+            .then((res) => {
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Logged Out successfully",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Could not logout!",
+                    footer: '<a href="#">Why do I have this issue?</a>'
+                });
+            })
+    }
     return (
         <div className="navbar bg-base-100 shadow-md px-4">
             <div className="flex-1">
@@ -15,12 +39,37 @@ const Navbar = () => {
                     <li>
                         <a className="font-medium">Products</a>
                     </li>
-                    <li> 
-                        <Link to='/login'><button className='btn btn-primary'>Login</button></Link>
-                    </li>
-                    <li>
-                        <Link to='/register'><button className='btn border-t-zinc-500 btn-primary'>Register</button></Link>
-                    </li>
+                    {
+                        user ? (<div className="dropdown dropdown-end">
+                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                <div className="w-10 rounded-full">
+                                    <img src={user.photoURL} alt="User" />
+                                </div>
+                            </div>
+
+                            <ul
+                                tabIndex={0}
+                                className="menu menu-sm dropdown-content mt-3 z-[20] p-2 shadow bg-base-100 rounded-box w-40"
+                            >
+                                <div>
+                                    <p className='text-green-500 mb-5'>{user.displayName}</p>
+                                </div>
+                                <li>
+                                    <Link to="/dashboard">Dashboard</Link>
+                                </li>
+                                <li>
+                                    <button onClick={handleLogout}>Logout</button>
+                                </li>
+                            </ul>
+                        </div>) : (<div className='flex items-center'>
+                            <li>
+                                <Link to='/login'><button className='btn btn-primary'>Login</button></Link>
+                            </li>
+                            <li>
+                                <Link to='/register'><button className='btn border-t-zinc-500 btn-primary'>Register</button></Link>
+                            </li>
+                        </div>)
+                    }
                 </ul>
             </div>
         </div>

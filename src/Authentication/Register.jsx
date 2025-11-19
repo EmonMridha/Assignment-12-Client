@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import useAuth from '../hooks/useAuth';
 import Swal from 'sweetalert2';
 import { updateProfile } from 'firebase/auth';
@@ -8,6 +8,9 @@ import { updateProfile } from 'firebase/auth';
 const Register = () => {
     const { createUser } = useAuth();
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const location = useLocation(); // storing the path where the user wanted to go
+    const navigate = useNavigate(); // Emny
+    const from = location.state?.from?.pathname || '/';
 
     const Fun = data => {
         createUser(data.email, data.password)
@@ -26,6 +29,7 @@ const Register = () => {
                         showConfirmButton: false,
                         timer: 1500
                     });
+                    navigate(from, {replace: true});
                 }
             })
             .catch(err => {
