@@ -1,0 +1,61 @@
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { Link } from 'react-router';
+import useAuth from '../hooks/useAuth';
+import Swal from 'sweetalert2';
+
+const Login = () => {
+
+    const { signIn } = useAuth();
+    const { register, handleSubmit, formState: { errors } } = useForm();
+
+    const Submit = data => {
+        signIn(data.email, data.password)
+            .then(res => {
+                if (res.user) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Logged in successfully",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+            .catch(errors => {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "User not found!",
+                    footer: '<a href="#">Why do I have this issue?</a>'
+                });
+            });
+    }
+    return (
+        <div className="max-w-md mx-auto p-6 bg-base-200 rounded-xl shadow-md mt-10">
+            <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
+            <form onSubmit={handleSubmit(Submit)} className="space-y-4">
+
+                <div>
+                    <label className="label">
+                        <span className="label-text">Email</span>
+                    </label>
+                    <input type="email" {...register('email', { required: 'Email Address is required' })} placeholder="Your Email" className="input input-bordered w-full" />
+                    {errors.email && <p className='text-red-600'>Email is required</p>}
+                </div>
+
+                <div>
+                    <label className="label">
+                        <span className="label-text">Password</span>
+                    </label>
+                    <input type="password" {...register('password', { required: 'password is required' })} placeholder="Password" className="input input-bordered w-full" />
+                    {errors.password && <p className='text-red-600'>Password is required</p>}
+                </div>
+                <p>Don't have an account? <Link className='link text-blue-600' to='/register'>Register</Link></p>
+                <button className="btn btn-primary w-full mt-4">Login</button>
+            </form>
+        </div>
+    );
+};
+
+export default Login;
