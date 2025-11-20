@@ -3,22 +3,54 @@ import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import useAuth from '../../hooks/useAuth';
 import { WithContext as ReactTags } from 'react-tag-input';
+import axiosPublic from '../../Axios/AxiosPublic';
+import { useNavigate } from 'react-router';
 
 const AddProducts = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { user } = useAuth();
     const [tags, setTags] = useState([]);
+    const navigate = useNavigate();
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
 
         const formData = { ...data, tags: tags.map(tag => tag.text), timestamp: new Date() };
-        console.log(formData);
-        Swal.fire({
-            icon: 'success',
-            title: 'Product Submitted!',
-            text: 'Your product has been successfully submitted.',
-        });
+
+        try {
+            const response = await axiosPublic.post('/products', formData); // Requesting to post in server and saving the response here
+
+            if (response.data.insertedId) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Product Submitted!',
+                    text: 'Your product has been successfully submitted.',
+                });
+                navigate('/myProducts')
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+
+        // axiosPublic.post('/products', formData)
+        //     .then(res => {
+        //         if (res.data.insertedId) {
+        //             Swal.fire({
+        //                 icon: 'success',
+        //                 title: 'Product Submitted!',
+        //                 text: 'Your product has been successfully submitted.',
+        //             });
+        //             navigate('/myProducts')
+        //         }
+        //     })
+        //     .catch(err => {
+        //         Swal.fire({
+        //             icon: 'error',
+        //             title: 'Oops!',
+        //             text: 'Something went wrong!',
+        //         });
+        //     })
     };
 
     const handleDeleteTag = (i) => { // i is automatic index of tag to be deleted

@@ -5,6 +5,8 @@ import Login from "../Authentication/Login";
 import Register from "../Authentication/Register";
 import Home from "../Pages/Home/Home";
 import AddProducts from "../Pages/AddProducts/AddProducts";
+import MyProducts from "../Pages/MyProducts/MyProducts";
+import Update from "../Pages/Update/Update";
 
 export const router = createBrowserRouter([
     {
@@ -18,6 +20,16 @@ export const router = createBrowserRouter([
             {
                 path: 'addProduct', 
                 Component: AddProducts
+            },
+            {
+                path: 'myProducts',
+                loader: () => fetch(`http://localhost:3000/products`).then(res=>res.json()),
+                Component: MyProducts
+            },
+            {
+                path:'update/:id',
+                loader:({params})=>fetch(`http://localhost:3000/products/${params.id}`),
+                Component:Update
             }
         ]
     },

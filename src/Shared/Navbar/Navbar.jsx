@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
@@ -6,6 +6,8 @@ import Swal from 'sweetalert2';
 const Navbar = () => {
 
     const { user, logOut } = useAuth();
+    const [showNavbar, setShowNavbar] = useState(true)
+    const [lastScrolly, setLastScrolly] = useState(0);
     const handleLogout = () => {
         logOut()
             .then((res) => {
@@ -26,8 +28,28 @@ const Navbar = () => {
                 });
             })
     }
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > lastScrolly) {
+                setShowNavbar(false);
+            } else {
+                setShowNavbar(true);
+            }
+            setLastScrolly(window.scrollY)
+        }
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [lastScrolly])
     return (
-        <div className="navbar bg-base-100 shadow-md px-4">
+        <div
+            className={`navbar bg-base-100 shadow-md px-4 fixed w-full top-0 z-50 transition-transform duration-300 ${showNavbar ? 'translate-y-0' : '-translate-y-full'
+                }`}
+        >
             <div className="flex-1">
                 <a className="text-xl font-bold">AppOrbit </a>
             </div>
