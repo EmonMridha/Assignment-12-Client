@@ -4,12 +4,14 @@ import FeaturedProducts from './FeaturedProducts';
 import TrendingProducts from './TrendingProducts';
 import ExtraSec1 from './ExtraSec1';
 import ExtraSec2 from './ExtraSec2';
+import { useLoaderData } from 'react-router';
 
 const Home = () => {
+    const products = useLoaderData();
     return (
         <div>
             <Banner></Banner>
-            <FeaturedProducts></FeaturedProducts>
+            <FeaturedProducts products={products}></FeaturedProducts>
             <TrendingProducts></TrendingProducts>
             <ExtraSec1></ExtraSec1>
             <ExtraSec2></ExtraSec2>
