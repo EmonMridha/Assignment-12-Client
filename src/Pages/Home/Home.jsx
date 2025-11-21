@@ -12,7 +12,7 @@ const Home = () => {
         <div>
             <Banner></Banner>
             <FeaturedProducts products={products}></FeaturedProducts>
-            <TrendingProducts></TrendingProducts>
+            <TrendingProducts products={products}></TrendingProducts>
             <ExtraSec1></ExtraSec1>
             <ExtraSec2></ExtraSec2>
         </div>

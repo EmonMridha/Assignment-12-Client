@@ -1,35 +1,40 @@
 import React, { useState } from 'react';
 import { FaThumbsUp } from 'react-icons/fa';
 import useAuth from '../../hooks/useAuth';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import axiosPublic from '../../Axios/AxiosPublic';
 
 const FeaturedCard = ({ product }) => {
-    const [votes, setVotes] = useState(product.votes || 0);
-    // Number of votes
-    const [upvoted, setUpvoted] = useState(false); // whether the current user has already liked or not. Initially not
     const { user } = useAuth();
     const navigate = useNavigate();
 
-    // This function runs when user clicks like button
-    const handleUpvote = async () => {
+    // Initialize state based on props
+    const initialUpvoted = user ? product.votedUsers?.includes(user.email) : false;
+    const [upvoted, setUpvoted] = useState(initialUpvoted);
+    const [votes, setVotes] = useState(product.votes || 0);
 
-        if (!user) {
-            navigate('/login')
-        }
+    // Handle user clicking the like button
+    const handleUpvote = async () => {
+        if (!user) return navigate('/login'); // redirect if not logged in
+        if (upvoted) return; // safety check
 
         try {
-            const increment = upvoted ? -1 : 1;
+            const response = await axiosPublic.patch(
+                `/products/${product._id}/vote`,
+                { userEmail: user.email }
+            );
 
-            const response = await axiosPublic.patch(`/products/${product._id}/vote`, { increment });
-            setVotes(response.data.votes);
-            setUpvoted(!upvoted);
-        }
-        catch (error) {
+            setVotes(response.data.votes); // update votes from backend
+            setUpvoted(true); // prevent multiple votes
+        } catch (error) {
             console.log(error);
+            if (error.response?.data?.message === "User already voted") {
+                setUpvoted(true);
+                alert("You have already voted for this product!");
+            }
         }
-    }
-    console.log(product);
+    };
+
     return (
         <div className=''>
             <div className="max-w-sm bg-amber-900 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
@@ -37,7 +42,7 @@ const FeaturedCard = ({ product }) => {
                 <div className="h-48 w-full overflow-hidden">
                     <img
                         src={product.productImage}
-                        alt="Product"
+                        alt={product.productName}
                         className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                     />
                 </div>
@@ -45,20 +50,28 @@ const FeaturedCard = ({ product }) => {
                 {/* Card Body */}
                 <div className="p-4 flex flex-col gap-3">
                     {/* Product Name */}
-                    <h2 className="text-xl font-semibold text-white">{product.productName}</h2>
+                    <Link to={`/productDetails/${product._id}`}><h2 className="text-xl font-semibold text-white">{product.productName}</h2></Link>
 
                     {/* Tags */}
                     <div className="flex flex-wrap gap-2">
-                        {
-                            product.tags.map(tag => <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full">
+                        {product.tags.map((tag, index) => (
+                            <span
+                                key={index}
+                                className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full"
+                            >
                                 {tag}
                             </span>
-                            )
-                        }
+                        ))}
                     </div>
+
+                    {/* Upvote Button */}
                     <button
                         onClick={handleUpvote}
-                        className={`flex items-center gap-2 mt-2 font-medium px-4 py-2 rounded-lg transition-colors duration-300 ${upvoted ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-800 hover:bg-green-400 hover:text-white'
+                        disabled={upvoted || user?.email === product.ownerEmail}
+                        className={`flex items-center gap-2 mt-2 font-medium px-4 py-2 rounded-lg transition-colors duration-300
+                            ${upvoted
+                                ? 'bg-green-500 text-white opacity-60 cursor-not-allowed'
+                                : 'bg-gray-200 text-gray-800 hover:bg-green-400 hover:text-white'
                             }`}
                     >
                         <FaThumbsUp />
