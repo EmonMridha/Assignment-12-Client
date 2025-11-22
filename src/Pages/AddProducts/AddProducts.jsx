@@ -26,7 +26,7 @@ const AddProducts = () => {
                     title: 'Product Submitted!',
                     text: 'Your product has been successfully submitted.',
                 });
-                navigate('/myProducts')
+                navigate(`/myProducts/${user?.email}`)
             }
         }
         catch (error) {

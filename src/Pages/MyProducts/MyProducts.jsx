@@ -7,7 +7,6 @@ const MyProducts = () => {
     const [status, setStatus] = useState('Pending')
     const loadedProducts = useLoaderData();
     const [myProducts, setMyProducts] = useState(loadedProducts)
-
     const handleDelete = async (id) => {
 
         try {
@@ -50,7 +49,7 @@ const MyProducts = () => {
                     {
                         myProducts.map((product, index) => <tr key={index}>
                             <td>{product.productName}</td>
-                            <td>45</td>
+                            <td>{product.votes}</td>
                             <td>{status}</td>
                             <td><Link to={`/update/${product._id}`}> <button className='btn btn-primary'>Update</button></Link> <button onClick={() => handleDelete(product._id)} className='btn  bg-red-600'>Delete</button></td>
                             <td></td>

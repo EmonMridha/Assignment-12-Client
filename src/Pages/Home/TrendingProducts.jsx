@@ -27,52 +27,55 @@ const TrendingProducts = ({ products }) => {
         }
     }
     return (
-        <div>
-            <h2 className='text-5xl text-center mt-20'>Trending Products</h2>
+        <div className='bg-cyan-700'>
+            <h2 className='text-4xl font-bold bg-cyan-700 text-center mt-20 mb-10'>Trending Products</h2>
 
-            <div>
-                {
-                    data.map((sorted, index) => <div key={index} className=''>
-                        <div className="max-w-sm bg-amber-900 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
-                            {/* Product Image */}
-                            <div className="h-48 w-full overflow-hidden">
-                                <img
-                                    src={sorted.productImage}
-                                    alt={sorted.productName}
-                                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                                />
-                            </div>
-
-                            {/* Card Body */}
-                            <div className="p-4 flex flex-col gap-3">
-                                {/* Product Name */}
-                                <Link to={`/productDetails/${sorted._id}`}><h2 className="text-xl font-semibold text-white">{sorted.productName}</h2></Link>
-
-                                {/* Tags */}
-                                <div className="flex flex-wrap gap-2">
-                                    {sorted.tags.map((tag, index) => (
-                                        <span
-                                            key={index}
-                                            className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full"
-                                        >
-                                            {tag}
-                                        </span>
-                                    ))}
+            <div className='flex justify-center'>
+                <div className='grid bg-cyan-700 gap-10 lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2'>
+                    {
+                        data.slice(0, 10).map((sorted, index) => <div key={index} >
+                            <div className="max-w-sm bg-amber-700 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+                                {/* Product Image */}
+                                <div className="h-48 w-full overflow-hidden">
+                                    <img
+                                        src={sorted.productImage}
+                                        alt={sorted.productName}
+                                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                                    />
                                 </div>
 
-                                {/* Upvote Button */}
-                                <button
-                                    onClick={() => handleLike(sorted._id)}
-                                    className="flex items-center gap-2 bg-blue-800 px-3 py-2 rounded-lg font-semibold hover:bg-green-400 hover:text-white transition-all"
-                                >
-                                    <FaThumbsUp />
-                                    <span>{sorted.votes || 0}</span>
-                                </button>
+                                {/* Card Body */}
+                                <div className="p-4 flex flex-col gap-3">
+                                    {/* Product Name */}
+                                    <Link to={`/productDetails/${sorted._id}`}><h2 className="text-xl font-semibold text-white">{sorted.productName}</h2></Link>
+
+                                    {/* Tags */}
+                                    <div className="flex flex-wrap gap-2">
+                                        {sorted.tags.map((tag, index) => (
+                                            <span
+                                                key={index}
+                                                className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full"
+                                            >
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+
+                                    {/* Upvote Button */}
+                                    <button
+                                        onClick={() => handleLike(sorted._id)}
+                                        className="flex items-center gap-2 bg-blue-800 px-3 py-2 rounded-lg font-semibold hover:bg-green-400 hover:text-white transition-all"
+                                    >
+                                        <FaThumbsUp />
+                                        <span>{sorted.votes || 0}</span>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </div>)
-                }
+                        </div>)
+                    }
+                </div>
             </div>
+            <Link to='/allProducts' className='btn btn-primary'>Show All Products</Link>
         </div>
     );
 };

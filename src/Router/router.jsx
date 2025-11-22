@@ -8,6 +8,7 @@ import AddProducts from "../Pages/AddProducts/AddProducts";
 import MyProducts from "../Pages/MyProducts/MyProducts";
 import Update from "../Pages/Update/Update";
 import ProductDetails from "../Pages/ProductDetails";
+import AllProducts from "../Pages/AllProducts";
 
 export const router = createBrowserRouter([
     {
@@ -24,19 +25,24 @@ export const router = createBrowserRouter([
                 Component: AddProducts
             },
             {
-                path: 'myProducts',
-                loader: () => fetch(`http://localhost:3000/products`).then(res => res.json()),
+                path: 'myProducts/:email',
+                loader: ({ params }) => fetch(`http://localhost:3000/products/byEmail/${params.email}`).then(res => res.json()),
                 Component: MyProducts
             },
             {
                 path: 'update/:id',
-                loader: ({ params }) => fetch(`http://localhost:3000/products/${params.id}`).then(res=>res.json()),
+                loader: ({ params }) => fetch(`http://localhost:3000/products/${params.id}`).then(res => res.json()),
                 Component: Update
             },
             {
                 path: 'productDetails/:id',
                 loader: ({ params }) => fetch(`http://localhost:3000/products/${params.id}`),
                 Component: ProductDetails
+            },
+            {
+                path: 'allProducts',
+                loader: () => fetch(`http://localhost:3000/products`),
+                Component: AllProducts
             }
         ]
     },

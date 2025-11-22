@@ -56,11 +56,13 @@ const Navbar = () => {
             <div className="flex-none">
                 <ul className="menu menu-horizontal px-1 gap-4">
                     <li>
-                        <a className="font-medium">Home</a>
+                        <Link to='/'>Home</Link>
                     </li>
                     <li>
-                        <a className="font-medium">Products</a>
+                        <Link to='/allProducts'>Products</Link>
                     </li>
+                    <li><Link to='/addProduct'>Add Products</Link></li>
+                    <li><Link to={`/myProducts/${user?.email}`}>My Products</Link></li>
                     {
                         user ? (<div className="dropdown dropdown-end">
                             <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
