@@ -30,7 +30,7 @@ const AddProducts = () => {
             }
         }
         catch (error) {
-            console.log(error);
+            console.error(error);
         }
 
         // axiosPublic.post('/products', formData)
@@ -62,7 +62,7 @@ const AddProducts = () => {
     }
     return (
         <div className="max-w-lg mx-auto mt-10 p-6 bg-base-200 rounded-xl shadow-md">
-            <h2 className="text-2xl font-bold mb-6 text-center">Add Product</h2>
+            <h2 className="text-2xl font-bold my-6 text-center">Add Product</h2>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 

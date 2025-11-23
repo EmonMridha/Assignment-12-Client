@@ -64,8 +64,8 @@ const Navbar = () => {
                     <ul className="menu menu-horizontal px-1 gap-4">
                         <li><Link to='/'>Home</Link></li>
                         <li><Link to='/allProducts'>Products</Link></li>
-                        
-                        
+
+
 
                         {/* DASHBOARD BUTTON */}
                         <li>
@@ -125,15 +125,15 @@ const Navbar = () => {
                 </div>
 
                 <div className="flex flex-col p-4 space-y-3">
-                    <Link to="/myProfile" className="px-4 py-2 bg-blue-500 text-white rounded-md">
+                    <Link to="/myProfile" onClick={()=>setOpenSidebar(false)} className="px-4 py-2 bg-blue-500 text-white rounded-md">
                         My Profile
                     </Link>
 
-                    <Link to={`/myProducts/${user?.email}`} className="px-4 py-2 bg-blue-500 text-white rounded-md">
+                    <Link onClick={()=>setOpenSidebar(false)} to={`/myProducts/${user?.email}`} className="px-4 py-2 bg-blue-500 text-white rounded-md">
                         My Products
                     </Link>
 
-                    <Link to="/addProduct" className="px-4 py-2 bg-green-600 text-white rounded-md">
+                    <Link onClick={()=>setOpenSidebar(false)} to="/addProduct" className="px-4 py-2 bg-green-600 text-white rounded-md">
                         Add Product
                     </Link>
                 </div>

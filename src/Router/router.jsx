@@ -9,6 +9,7 @@ import MyProducts from "../Pages/MyProducts/MyProducts";
 import Update from "../Pages/Update/Update";
 import ProductDetails from "../Pages/ProductDetails";
 import AllProducts from "../Pages/AllProducts";
+import MyProfile from "../Pages/MyProfile";
 
 export const router = createBrowserRouter([
     {
@@ -43,6 +44,10 @@ export const router = createBrowserRouter([
                 path: 'allProducts',
                 loader: () => fetch(`https://assignment-12-server-jade-two.vercel.app/products`),
                 Component: AllProducts
+            },
+            {
+                path:'myProfile',
+                Component: MyProfile
             }
         ]
     },
