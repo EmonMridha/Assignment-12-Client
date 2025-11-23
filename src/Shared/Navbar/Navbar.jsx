@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router';
+import { FaBars, FaTimes } from 'react-icons/fa';
 import useAuth from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
 
@@ -8,9 +9,11 @@ const Navbar = () => {
     const { user, logOut } = useAuth();
     const [showNavbar, setShowNavbar] = useState(true)
     const [lastScrolly, setLastScrolly] = useState(0);
+    const [openSidebar, setOpenSidebar] = useState(false)
+
     const handleLogout = () => {
         logOut()
-            .then((res) => {
+            .then(() => {
                 Swal.fire({
                     position: "top-end",
                     icon: "success",
@@ -23,8 +26,7 @@ const Navbar = () => {
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Could not logout!",
-                    footer: '<a href="#">Why do I have this issue?</a>'
+                    text: "Could not logout!"
                 });
             })
     }
@@ -45,58 +47,98 @@ const Navbar = () => {
             window.removeEventListener('scroll', handleScroll)
         }
     }, [lastScrolly])
-    return (
-        <div
-            className={`navbar bg-base-100 shadow-md px-4 fixed w-full top-0 z-50 transition-transform duration-300 ${showNavbar ? 'translate-y-0' : '-translate-y-full'
-                }`}
-        >
-            <div className="flex-1">
-                <a className="text-xl font-bold">AppOrbit </a>
-            </div>
-            <div className="flex-none">
-                <ul className="menu menu-horizontal px-1 gap-4">
-                    <li>
-                        <Link to='/'>Home</Link>
-                    </li>
-                    <li>
-                        <Link to='/allProducts'>Products</Link>
-                    </li>
-                    <li><Link to='/addProduct'>Add Products</Link></li>
-                    <li><Link to={`/myProducts/${user?.email}`}>My Products</Link></li>
-                    {
-                        user ? (<div className="dropdown dropdown-end">
-                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                                <div className="w-10 rounded-full">
-                                    <img src={user.photoURL} alt="User" />
-                                </div>
-                            </div>
 
-                            <ul
-                                tabIndex={0}
-                                className="menu menu-sm dropdown-content mt-3 z-[20] p-2 shadow bg-base-100 rounded-box w-40"
+
+    return (
+        <>
+            {/* NAVBAR */}
+            <div
+                className={`navbar bg-base-100 shadow-md px-4 fixed w-full top-0 z-50 transition-transform duration-300 ${showNavbar ? 'translate-y-0' : '-translate-y-full'
+                    }`}
+            >
+                <div className="flex-1">
+                    <Link to='/' className="text-xl font-bold">AppOrbit </Link>
+                </div>
+
+                <div className="flex-none">
+                    <ul className="menu menu-horizontal px-1 gap-4">
+                        <li><Link to='/'>Home</Link></li>
+                        <li><Link to='/allProducts'>Products</Link></li>
+                        
+                        
+
+                        {/* DASHBOARD BUTTON */}
+                        <li>
+                            <button
+                                className="flex items-center gap-2 bg-white text-blue-600 px-4 py-2 rounded-md font-semibold"
+                                onClick={() => setOpenSidebar(true)}
                             >
-                                <div>
-                                    <p className='text-green-500 mb-5'>{user.displayName}</p>
+                                <FaBars /> Dashboard
+                            </button>
+                        </li>
+
+                        {user ? (
+                            <div className="dropdown dropdown-end">
+                                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                    <div className="w-10 rounded-full">
+                                        <img src={user.photoURL} alt="User" />
+                                    </div>
                                 </div>
-                                <li>
-                                    <Link to="/dashboard">Dashboard</Link>
-                                </li>
-                                <li>
-                                    <button onClick={handleLogout}>Logout</button>
-                                </li>
-                            </ul>
-                        </div>) : (<div className='flex items-center'>
-                            <li>
-                                <Link to='/login'><button className='btn btn-primary'>Login</button></Link>
-                            </li>
-                            <li>
-                                <Link to='/register'><button className='btn border-t-zinc-500 btn-primary'>Register</button></Link>
-                            </li>
-                        </div>)
-                    }
-                </ul>
+
+                                <ul
+                                    tabIndex={0}
+                                    className="menu menu-sm dropdown-content mt-3 z-[20] p-2 shadow bg-base-100 rounded-box w-40"
+                                >
+                                    <div><p className='text-green-500 mb-5'>{user.displayName}</p></div>
+                                    <li><Link to="/dashboard">Dashboard</Link></li>
+                                    <li><button onClick={handleLogout}>Logout</button></li>
+                                </ul>
+                            </div>
+                        ) : (
+                            <div className='flex items-center'>
+                                <li><Link to='/login'><button className='btn btn-primary'>Login</button></Link></li>
+                                <li><Link to='/register'><button className='btn btn-primary'>Register</button></Link></li>
+                            </div>
+                        )}
+                    </ul>
+                </div>
             </div>
-        </div>
+
+            {/* SIDEBAR OVERLAY */}
+            {openSidebar && (
+                <div
+                    className="fixed inset-0 bg-black bg-opacity-40 z-40"
+                    onClick={() => setOpenSidebar(false)}
+                ></div>
+            )}
+
+            {/* SIDEBAR */}
+            <div
+                className={`fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 ${openSidebar ? "translate-x-0" : "translate-x-full"
+                    }`}
+            >
+                <div className="flex justify-between items-center p-4 border-b">
+                    <h3 className="text-xl font-bold">Dashboard</h3>
+                    <button onClick={() => setOpenSidebar(false)}>
+                        <FaTimes className="text-xl" />
+                    </button>
+                </div>
+
+                <div className="flex flex-col p-4 space-y-3">
+                    <Link to="/myProfile" className="px-4 py-2 bg-blue-500 text-white rounded-md">
+                        My Profile
+                    </Link>
+
+                    <Link to={`/myProducts/${user?.email}`} className="px-4 py-2 bg-blue-500 text-white rounded-md">
+                        My Products
+                    </Link>
+
+                    <Link to="/addProduct" className="px-4 py-2 bg-green-600 text-white rounded-md">
+                        Add Product
+                    </Link>
+                </div>
+            </div>
+        </>
     );
 };
 

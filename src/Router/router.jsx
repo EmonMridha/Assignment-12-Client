@@ -17,7 +17,7 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                loader: () => fetch('http://localhost:3000/products'),
+                loader: () => fetch('https://assignment-12-server-jade-two.vercel.app/products'),
                 Component: Home
             },
             {
@@ -26,22 +26,22 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'myProducts/:email',
-                loader: ({ params }) => fetch(`http://localhost:3000/products/byEmail/${params.email}`).then(res => res.json()),
+                loader: ({ params }) => fetch(`https://assignment-12-server-jade-two.vercel.app/products/byEmail/${params.email}`).then(res => res.json()),
                 Component: MyProducts
             },
             {
                 path: 'update/:id',
-                loader: ({ params }) => fetch(`http://localhost:3000/products/${params.id}`).then(res => res.json()),
+                loader: ({ params }) => fetch(`https://assignment-12-server-jade-two.vercel.app/products/${params.id}`).then(res => res.json()),
                 Component: Update
             },
             {
                 path: 'productDetails/:id',
-                loader: ({ params }) => fetch(`http://localhost:3000/products/${params.id}`),
+                loader: ({ params }) => fetch(`https://assignment-12-server-jade-two.vercel.app/products/${params.id}`),
                 Component: ProductDetails
             },
             {
                 path: 'allProducts',
-                loader: () => fetch(`http://localhost:3000/products`),
+                loader: () => fetch(`https://assignment-12-server-jade-two.vercel.app/products`),
                 Component: AllProducts
             }
         ]

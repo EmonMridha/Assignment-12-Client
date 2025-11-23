@@ -27,7 +27,7 @@ const FeaturedCard = ({ product }) => {
             setVotes(response.data.votes); // update votes from backend
             setUpvoted(true); // prevent multiple votes
         } catch (error) {
-            console.log(error);
+            console.error(error);
             if (error.response?.data?.message === "User already voted") {
                 setUpvoted(true);
                 alert("You have already voted for this product!");
@@ -43,7 +43,7 @@ const FeaturedCard = ({ product }) => {
                     <img
                         src={product.productImage}
                         alt={product.productName}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        className="w-70 h-full object-cover hover:scale-105 transition-transform duration-300"
                     />
                 </div>
 
