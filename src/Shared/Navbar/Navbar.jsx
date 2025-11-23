@@ -118,7 +118,7 @@ const Navbar = () => {
                     }`}
             >
                 <div className="flex justify-between items-center p-4 border-b">
-                    <h3 className="text-xl font-bold">Dashboard</h3>
+                    <h3 className="text-xl text-black font-bold">Dashboard</h3>
                     <button onClick={() => setOpenSidebar(false)}>
                         <FaTimes className="text-xl" />
                     </button>
