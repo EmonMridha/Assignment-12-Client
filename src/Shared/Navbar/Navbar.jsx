@@ -48,7 +48,6 @@ const Navbar = () => {
         }
     }, [lastScrolly])
 
-
     return (
         <>
             {/* NAVBAR */}
@@ -90,7 +89,7 @@ const Navbar = () => {
                                     className="menu menu-sm dropdown-content mt-3 z-[20] p-2 shadow bg-base-100 rounded-box w-40"
                                 >
                                     <div><p className='text-green-500 mb-5'>{user.displayName}</p></div>
-                                    <li><Link to="/dashboard">Dashboard</Link></li>
+                                    <li><Link to="/dashboard"> Dashboard</Link></li>
                                     <li><button onClick={handleLogout}>Logout</button></li>
                                 </ul>
                             </div>
@@ -118,7 +117,7 @@ const Navbar = () => {
                     }`}
             >
                 <div className="flex justify-between items-center p-4 border-b">
-                    <h3 className="text-xl text-black font-bold">Dashboard</h3>
+                    <h3 className="text-xl text-black font-bold">User Dashboard</h3>
                     <button onClick={() => setOpenSidebar(false)}>
                         <FaTimes className="text-xl" />
                     </button>
