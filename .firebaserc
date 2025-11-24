@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "assignment-12-bbaa1"
-  }
+  },
+  "targets": {
+    "assignment-12-bbaa1": {
+      "hosting": {
+        "assignment-12-bbaa1": [
+          "assignment-12-bbaa1"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

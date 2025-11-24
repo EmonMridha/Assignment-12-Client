@@ -75,7 +75,9 @@ const TrendingProducts = ({ products }) => {
                     }
                 </div>
             </div>
-            <Link to='/allProducts' className='btn btn-primary'>Show All Products</Link>
+            <div className='text-center my-10'>
+                <Link to='/allProducts' className='btn btn-primary'>Show All Products</Link>
+            </div>
         </div>
     );
 };
