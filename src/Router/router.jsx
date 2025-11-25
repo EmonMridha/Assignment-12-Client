@@ -10,6 +10,7 @@ import Update from "../Pages/Update/Update";
 import ProductDetails from "../Pages/ProductDetails";
 import AllProducts from "../Pages/AllProducts";
 import MyProfile from "../Pages/MyProfile";
+import ModeratorDashboard from "../Pages/ModeratorDashboard";
 
 export const router = createBrowserRouter([
     {
@@ -18,7 +19,7 @@ export const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                loader: () => fetch('https://assignment-12-server-jade-two.vercel.app/products'),
+                loader: () => fetch('https://assignment-12-server-jade-two.vercel.app/products/accepted'),
                 Component: Home
             },
             {
@@ -42,13 +43,18 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'allProducts',
-                loader: () => fetch(`https://assignment-12-server-jade-two.vercel.app/products`),
+                loader: () => fetch(`https://assignment-12-server-jade-two.vercel.app/products/accepted`),
                 Component: AllProducts
             },
             {
-                path:'myProfile',
+                path: 'myProfile',
                 Component: MyProfile
             },
+            {
+                path: 'moderatorDashboard',
+                loader: () => fetch('https://assignment-12-server-jade-two.vercel.app/products'),
+                Component: ModeratorDashboard
+            }
         ]
     },
     {

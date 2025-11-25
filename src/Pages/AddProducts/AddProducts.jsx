@@ -15,7 +15,7 @@ const AddProducts = () => {
 
     const onSubmit = async (data) => {
 
-        const formData = { ...data, votes:0, tags: tags.map(tag => tag.text), timestamp: new Date() };
+        const formData = { ...data, reported: false, votes: 0, status: 'pending', isFeatured: false, tags: tags.map(tag => tag.text), timestamp: new Date() };
 
         try {
             const response = await axiosPublic.post('/products', formData); // Requesting to post in server and saving the response here

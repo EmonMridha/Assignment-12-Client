@@ -65,16 +65,20 @@ const Navbar = () => {
                         <li><Link to='/allProducts'>Products</Link></li>
 
 
-
                         {/* DASHBOARD BUTTON */}
-                        <li>
-                            <button
-                                className="flex items-center gap-2 bg-white text-blue-600 px-4 py-2 rounded-md font-semibold"
-                                onClick={() => setOpenSidebar(true)}
-                            >
-                                <FaBars /> Dashboard
-                            </button>
-                        </li>
+
+                        {
+                            user?.email === 'emonmridha712@gmail.com' ? (<Link to='/moderatorDashboard'><button className='flex items-center gap-2 bg-white text-blue-600 px-4 py-2 rounded-md font-semibold'>
+                                <FaBars /> Moderator Dashboard
+                            </button></Link>) : (<li>
+                                <button
+                                    className="flex items-center gap-2 bg-white text-blue-600 px-4 py-2 rounded-md font-semibold"
+                                    onClick={() => setOpenSidebar(true)}
+                                >
+                                    <FaBars /> Dashboard
+                                </button>
+                            </li>)
+                        }
 
                         {user ? (
                             <div className="dropdown dropdown-end">
@@ -124,15 +128,15 @@ const Navbar = () => {
                 </div>
 
                 <div className="flex flex-col p-4 space-y-3">
-                    <Link to="/myProfile" onClick={()=>setOpenSidebar(false)} className="px-4 py-2 bg-blue-500 text-white rounded-md">
+                    <Link to="/myProfile" onClick={() => setOpenSidebar(false)} className="px-4 py-2 bg-blue-500 text-white rounded-md">
                         My Profile
                     </Link>
 
-                    <Link onClick={()=>setOpenSidebar(false)} to={`/myProducts/${user?.email}`} className="px-4 py-2 bg-blue-500 text-white rounded-md">
+                    <Link onClick={() => setOpenSidebar(false)} to={`/myProducts/${user?.email}`} className="px-4 py-2 bg-blue-500 text-white rounded-md">
                         My Products
                     </Link>
 
-                    <Link onClick={()=>setOpenSidebar(false)} to="/addProduct" className="px-4 py-2 bg-green-600 text-white rounded-md">
+                    <Link onClick={() => setOpenSidebar(false)} to="/addProduct" className="px-4 py-2 bg-green-600 text-white rounded-md">
                         Add Product
                     </Link>
                 </div>

@@ -8,8 +8,8 @@ import Swal from 'sweetalert2';
 const ProductDetails = () => {
     const data = useLoaderData();
     const { user } = useAuth();
-
     const [product, setProduct] = useState(data);
+    const [reported, setReported] = useState(product.reported||false)
 
     const handleLike = async () => {
         try {
@@ -36,6 +36,18 @@ const ProductDetails = () => {
             });
         }
     }
+
+    const handleReport = (id) => {
+        axiosPublic.patch(`/products/reported/${id}`).then(res => {
+            if (res.data.modifiedCount > 0) {
+                Swal.fire('Reported successfully!')
+                setReported(true)
+            }
+        })
+            .catch(error => {
+                console.log(error);
+            })
+    }
     return (
         <div>
             <h2 className='text-5xl text-center mt-20' >Product Details</h2>
@@ -51,12 +63,12 @@ const ProductDetails = () => {
                         <button
                             className='cursor-pointer flex items-center gap-2'
                             onClick={handleLike}
-                            disabled={user?.email === product.ownerEmail? "You cannot vote for your own product": ''}
+                            disabled={user?.email === product.ownerEmail ? "You cannot vote for your own product" : ''}
                         >
                             <FaThumbsUp />
                             <span className='text-xl'>{product.votes || 0}</span>
                         </button>
-                        <button className='bg-red-500 p-1 rounded-2xl font-semibold cursor-pointer'>Report</button>
+                        <button onClick={() => handleReport(product._id)} disabled={reported} className='bg-red-500 p-1 rounded-2xl font-semibold cursor-pointer'>Report</button>
                     </div>
                 </div>
 

@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import FeaturedCard from './FeaturedCard';
+import axiosPublic from '../../Axios/AxiosPublic';
 
-const FeaturedProducts = ({ products }) => {
+const FeaturedProducts = () => {
+    const [products, setProduct] = useState([]);
 
+    useEffect(()=>{
+        axiosPublic.get('/products/Featured').then(res=>{
+            setProduct(res.data)
+        })
+        .catch(error=>{
+            console.error('Error Fetching featured products')
+        })
+    },[])
     const sortedProducts = [...products].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)).slice(0,10);
     return (
         <div className='bg-cyan-900'>
