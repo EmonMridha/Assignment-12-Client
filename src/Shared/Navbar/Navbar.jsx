@@ -10,6 +10,12 @@ const Navbar = () => {
     const [showNavbar, setShowNavbar] = useState(true)
     const [lastScrolly, setLastScrolly] = useState(0);
     const [openSidebar, setOpenSidebar] = useState(false)
+    const [open, setOpen] = useState(false)
+    const [openAdminSidebar, setOpenAdminsSidebar] = useState(false)
+
+    const toggleDrpodown = () => {
+        setOpen(!open)
+    }
 
     const handleLogout = () => {
         logOut()
@@ -64,13 +70,37 @@ const Navbar = () => {
                         <li><Link to='/'>Home</Link></li>
                         <li><Link to='/allProducts'>Products</Link></li>
 
-
                         {/* DASHBOARD BUTTON */}
 
                         {
-                            user?.email === 'emonmridha712@gmail.com' ? (<Link to='/moderatorDashboard'><button className='flex items-center gap-2 bg-white text-blue-600 px-4 py-2 rounded-md font-semibold'>
-                                <FaBars /> Moderator Dashboard
-                            </button></Link>) : (<li>
+                            user?.email === 'emonmridha712@gmail.com' ? (
+                                <div className="relative">
+                                    <button
+                                        onClick={toggleDrpodown}
+                                        className="flex items-center gap-2 bg-white text-blue-600 px-4 py-2 rounded-md font-semibold"
+                                    >
+                                        <FaBars /> Moderator Dashboard
+                                    </button>
+
+                                    {/* Dropdown */}
+                                    {open && (
+                                        <div className="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-lg z-50">
+                                            <Link to='/reviewQueue'>
+                                                <button
+                                                    className="block text-black w-full text-left px-4 py-2 hover:bg-blue-100"
+                                                >
+                                                    Review Queue
+                                                </button></Link>
+                                            <Link to='/reportedContent'>
+                                                <button
+                                                    className="block w-full text-black text-left px-4 py-2 hover:bg-blue-100"
+                                                >
+                                                    Reported Contents
+                                                </button></Link>
+                                        </div>
+                                    )}
+                                </div>
+                            ) : (<li>
                                 <button
                                     className="flex items-center gap-2 bg-white text-blue-600 px-4 py-2 rounded-md font-semibold"
                                     onClick={() => setOpenSidebar(true)}
@@ -79,6 +109,21 @@ const Navbar = () => {
                                 </button>
                             </li>)
                         }
+
+                        {
+                            user?.email === 'admin@gmail.com' && (
+                                <li>
+                                    <button
+                                        className="flex items-center gap-2 bg-amber-800 text-white px-4 py-2 rounded-md font-semibold"
+                                        onClick={() => setOpenAdminsSidebar(true)}
+                                    >
+                                        <FaBars /> Admin Dashboard
+                                    </button>
+                                </li>
+                            )
+                        }
+
+
 
                         {user ? (
                             <div className="dropdown dropdown-end">
@@ -141,6 +186,54 @@ const Navbar = () => {
                     </Link>
                 </div>
             </div>
+            {/* ADMIN SIDEBAR OVERLAY */}
+            {openAdminSidebar && (
+                <div
+                    className="fixed inset-0 bg-black bg-opacity-40 z-40"
+                    onClick={() => setOpenAdminsSidebar(false)}
+                ></div>
+            )}
+
+            {/* ADMIN SIDEBAR */}
+            <div
+                className={`fixed top-0 right-0 h-full w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 ${openAdminSidebar ? "translate-x-0" : "translate-x-full"}`}
+            >
+                <div className="flex justify-between items-center p-4 border-b">
+                    <h3 className="text-xl text-black font-bold">Admin Dashboard</h3>
+                    <button onClick={() => setOpenAdminsSidebar(false)}>
+                        <FaTimes className="text-xl" />
+                    </button>
+                </div>
+
+                <div className="flex flex-col p-4 space-y-3">
+
+                    <Link
+                        to="/staticsPage"
+                        onClick={() => setOpenAdminsSidebar(false)}
+                        className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                    >
+                        Statistics Page
+                    </Link>
+
+                    <Link
+                        to="/manageUsers"
+                        onClick={() => setOpenAdminsSidebar(false)}
+                        className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                    >
+                       Manage Users
+                    </Link>
+
+                    <Link
+                        to="/manageCoupons"
+                        onClick={() => setOpenAdminsSidebar(false)}
+                        className="px-4 py-2 bg-blue-500 text-white rounded-md"
+                    >
+                        Manage Coupons
+                    </Link>
+
+                </div>
+            </div>
+
         </>
     );
 };

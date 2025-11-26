@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axiosPublic from '../Axios/AxiosPublic';
+import Swal from 'sweetalert2';
 
 const ReportedContent = () => {
     const [reportedData, setreportedData] = useState([]);
+    const handleDelete = (id) => {
+        axiosPublic.delete(`/products/${id}`).then(res => {
+            Swal.fire('Deleted Successfully!')
+        })
+    }
 
     useEffect(() => {
         axiosPublic.get('/products/reported').then(res => {
@@ -29,7 +35,8 @@ const ReportedContent = () => {
                             <td>{product.productName}</td>
                             <td><Link to={`/productDetails/${product._id}`} className='btn'>View Details</Link></td>
                             <td>{product.status ? 'Accepted' : "Pending"}</td>
-                            <td> <button>Delete</button>
+                            <td> <button onClick={() => handleDelete(product._id)
+                            }>Delete</button>
                             </td>
                             <td></td>
                         </tr>)

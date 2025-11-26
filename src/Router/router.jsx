@@ -10,7 +10,11 @@ import Update from "../Pages/Update/Update";
 import ProductDetails from "../Pages/ProductDetails";
 import AllProducts from "../Pages/AllProducts";
 import MyProfile from "../Pages/MyProfile";
-import ModeratorDashboard from "../Pages/ModeratorDashboard";
+import ReviewQueue from "../Pages/ReviewQueue";
+import ReportedContent from "../Pages/ReportedContent";
+import ManageUsers from "../Pages/ManageUsers";
+import StatisticsPage from "../Pages/StatisticsPage";
+import ManageCoupons from "../Pages/ManageCoupons";
 
 export const router = createBrowserRouter([
     {
@@ -51,10 +55,27 @@ export const router = createBrowserRouter([
                 Component: MyProfile
             },
             {
-                path: 'moderatorDashboard',
+                path: 'reviewQueue',
                 loader: () => fetch('https://assignment-12-server-jade-two.vercel.app/products'),
-                Component: ModeratorDashboard
+                Component: ReviewQueue
+            },
+            {
+                path: 'reportedContent',
+                Component: ReportedContent
+            },
+            {
+                path: 'manageUsers',
+                Component: ManageUsers
+            },
+            {
+                path: 'staticsPage',
+                Component: StatisticsPage
+            },
+            {
+                path: 'manageCoupons',
+                Component: ManageCoupons
             }
+
         ]
     },
     {

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useLoaderData } from 'react-router';
 import axiosPublic from '../Axios/AxiosPublic';
 import Swal from 'sweetalert2';
 
-const ReviewQueue = ({ products }) => {
+const ReviewQueue = () => {
+    const products = useLoaderData()
     const acceptProduct = async (id) => {
         const res = await axiosPublic.patch(`/products/accept/${id}`);
         if (res.data.modifiedCount > 0) {

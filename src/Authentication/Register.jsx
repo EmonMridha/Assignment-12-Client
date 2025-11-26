@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import useAuth from '../hooks/useAuth';
 import Swal from 'sweetalert2';
 import { updateProfile } from 'firebase/auth';
+import axiosPublic from '../Axios/AxiosPublic';
 
 const Register = () => {
     const { createUser } = useAuth();
@@ -20,17 +21,26 @@ const Register = () => {
                 updateProfile(user, {
                     displayName: data.name,
                     photoURL: data.photo
+                }).then(() => {
+                    const userInfo = {
+                        name: data.name,
+                        email: data.email,
+                        photoURL: data.photo,
+
+                    };
+                    axiosPublic.post('/users', userInfo)
+                        .then(() => {
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: "Registered in successfully",
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            navigate(from, { replace: true });
+                        })
                 })
-                if (result.user) {
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: "Logged in successfully",
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                    navigate(from, {replace: true});
-                }
+
             })
             .catch(err => {
                 Swal.fire({

@@ -9,7 +9,7 @@ const ProductDetails = () => {
     const data = useLoaderData();
     const { user } = useAuth();
     const [product, setProduct] = useState(data);
-    const [reported, setReported] = useState(product.reported||false)
+    const [reported, setReported] = useState(product.reported || false)
 
     const handleLike = async () => {
         try {
