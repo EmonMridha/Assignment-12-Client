@@ -15,6 +15,9 @@ import ReportedContent from "../Pages/ReportedContent";
 import ManageUsers from "../Pages/ManageUsers";
 import StatisticsPage from "../Pages/StatisticsPage";
 import ManageCoupons from "../Pages/ManageCoupons";
+import CouponEdit from "../Pages/CouponEdit";
+import PrivateRoute from "./PrivateRoute/PrivateRoute";
+
 
 export const router = createBrowserRouter([
     {
@@ -28,12 +31,12 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'addProduct',
-                Component: AddProducts
+                element: <PrivateRoute><AddProducts></AddProducts></PrivateRoute>
             },
             {
                 path: 'myProducts/:email',
                 loader: ({ params }) => fetch(`https://assignment-12-server-jade-two.vercel.app/products/byEmail/${params.email}`).then(res => res.json()),
-                Component: MyProducts
+                element: <PrivateRoute><MyProducts></MyProducts></PrivateRoute>
             },
             {
                 path: 'update/:id',
@@ -43,37 +46,41 @@ export const router = createBrowserRouter([
             {
                 path: 'productDetails/:id',
                 loader: ({ params }) => fetch(`https://assignment-12-server-jade-two.vercel.app/products/${params.id}`),
-                Component: ProductDetails
+                element: <PrivateRoute><ProductDetails></ProductDetails></PrivateRoute>
             },
             {
                 path: 'allProducts',
                 loader: () => fetch(`https://assignment-12-server-jade-two.vercel.app/products/accepted`),
-                Component: AllProducts
+                element: <PrivateRoute><AllProducts></AllProducts></PrivateRoute>
             },
             {
                 path: 'myProfile',
-                Component: MyProfile
+                element: <PrivateRoute><MyProfile></MyProfile></PrivateRoute>
             },
             {
                 path: 'reviewQueue',
                 loader: () => fetch('https://assignment-12-server-jade-two.vercel.app/products'),
-                Component: ReviewQueue
+                element: <PrivateRoute><ReviewQueue></ReviewQueue></PrivateRoute>
             },
             {
                 path: 'reportedContent',
-                Component: ReportedContent
+                element: <PrivateRoute><ReportedContent></ReportedContent></PrivateRoute>
             },
             {
                 path: 'manageUsers',
-                Component: ManageUsers
+                element: <PrivateRoute>< ManageUsers></ManageUsers></PrivateRoute>
             },
             {
                 path: 'staticsPage',
-                Component: StatisticsPage
+                element: <PrivateRoute><StatisticsPage></StatisticsPage></PrivateRoute>
             },
             {
                 path: 'manageCoupons',
-                Component: ManageCoupons
+                element: <PrivateRoute><ManageCoupons></ManageCoupons></PrivateRoute>
+            },
+            {
+                path: 'couponEdit/:id',
+                element: <PrivateRoute><CouponEdit></CouponEdit></PrivateRoute>
             }
 
         ]

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axiosPublic from '../Axios/AxiosPublic';
+import Swal from 'sweetalert2';
 
 const ManageUsers = () => {
     const [users, setUsers] = useState([])
@@ -8,35 +9,42 @@ const ManageUsers = () => {
             setUsers(res.data)
         })
     }, [])
+
+    const handleMakeModerator = (id) => {
+        axiosPublic.patch(`/users/makeModerator/${id}`).then(res => {
+            Swal.fire('Made Moderator')
+        })
+    }
+
+    const handleMakeAdmin = (id) => {
+        axiosPublic.patch(`/users/makeAdmin/${id}`).then(res => {
+            Swal.fire('Made Admin')
+        })
+    }
     return (
         <div className='flex justify-center'>
             <div>
                 <h2 className='mt-30 text-4xl font-semibold'>Manage Users</h2>
                 {
-                    users.map(user => <table key={user._id} border="1" cellpadding="8" cellspacing="0">
-                        <thead>
+                    users.map(user => <table
+                        key={user._id}
+                        className="border-collapse border border-gray-400 my-4"
+                    >
+                        <thead className="bg-gray-100">
                             <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Activity</th>
+                                <th className="px-6 py-3  text-black border">Name</th>
+                                <th className="px-6 py-3 text-black border">Email</th>
+                                <th className="px-6 py-3 text-black border">Activity</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             <tr>
-                                <td>Emon</td>
-                                <td>emon@gmail.com</td>
-                                <td>Logged In</td>
+                                <td className="px-6 py-3 border">Emon</td>
+                                <td className="px-6 py-3 border">emon@gmail.com</td>
+                                <td className="px-6 py-3 border"><button onClick={() => handleMakeModerator(user._id)} className='btn'>Make Moderator</button> <button onClick={() => handleMakeAdmin(user._id)} className='btn'>Make Admin</button></td>
                             </tr>
-                            <tr>
-                                <td>Sarah</td>
-                                <td>sarah@example.com</td>
-                                <td>Logged Out</td>
-                            </tr>
-                            <tr>
-                                <td>Alex</td>
-                                <td>alex@domain.com</td>
-                                <td>Viewing Dashboard</td>
-                            </tr>
+
                         </tbody>
                     </table>
                     )
